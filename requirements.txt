@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+pydantic
+openai
+langchain
+langchain-community
+langchain-huggingface
+faiss-cpu
+pdfplumber
+sentence-transformers
+akshare
+tenacity
+zhipuai

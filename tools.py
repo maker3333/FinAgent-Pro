@@ -50,7 +50,7 @@ def analyze_sentiment(news_text: str) -> str:
             temperature=0.1
         )
         res_text = response.choices[0].message.content.strip()
-        # 防止大模型手贱加了 markdown 标记，用正则洗一遍
+        # 防止大模型加了 markdown 标记，用正则洗一遍
         res_text = re.sub(r"^```json\s*", "", res_text)
         res_text = re.sub(r"\s*```$", "", res_text)
         return res_text

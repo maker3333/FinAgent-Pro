@@ -81,7 +81,7 @@ def ask_pdf(question):
 
 if __name__ == "__main__":
     # 第一次运行解开这行建库，之后注释掉
-    build_vector_store("report.pdf")
+    #build_vector_store("report.pdf")
 
     # 测试问答
     ans = ask_pdf("这家公司去年的营业收入是多少？")

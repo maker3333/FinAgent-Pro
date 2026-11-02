@@ -1,12 +1,16 @@
+import os
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
-print("正在加载本地 BGE-M3 模型（只需加载一次，请稍候）...")
+# 动态获取当前文件所在的目录
+current_dir = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(current_dir, "models", "bge-m3")
 
-# 全局只实例化这一次
+# 如果本地没有模型，就回退到默认下载
+if not os.path.exists(model_path):
+    model_path = "BAAI/bge-m3"
+
 global_embeddings = HuggingFaceEmbeddings(
-    model_name=r"D:\products\FinAgent\models\bge-m3",
+    model_name=model_path,
     model_kwargs={'device': 'cpu'},
     encode_kwargs={'normalize_embeddings': True}
 )
-
-print("✅ BGE-M3 模型加载成功，常驻内存。")

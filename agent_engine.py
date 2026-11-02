@@ -40,7 +40,7 @@ def agent_chat(query, session_id="default", max_iterations=5):
 
             content = response.choices[0].message.content
 
-            # 1. 终极防御：强制转换类型
+            # 强制转换类型
             if isinstance(content, dict):
                 res_text = json.dumps(content, ensure_ascii=False)
             elif isinstance(content, list):
@@ -48,14 +48,14 @@ def agent_chat(query, session_id="default", max_iterations=5):
             else:
                 res_text = str(content).strip()
 
-            # 2. 清洗可能存在的 Markdown 标记
+            # 清洗可能存在的 Markdown 标记
             if res_text.startswith("```json"):
                 res_text = res_text[7:]
             if res_text.endswith("```"):
                 res_text = res_text[:-3]
             res_text = res_text.strip()
 
-            # 3. 解析 JSON
+            # 解析 JSON
             parsed = json.loads(res_text)
             action = parsed.get("action")
             action_input = parsed.get("action_input")

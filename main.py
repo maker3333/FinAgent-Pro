@@ -3,6 +3,7 @@ import io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
+import uuid
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.responses import StreamingResponse
@@ -17,21 +18,21 @@ client = OpenAI(
     base_url="https://open.bigmodel.cn/api/paas/v4/"
 )
 
-# 定义请求体，加入 session_id
+# 加入 session_id
 class ChatRequest(BaseModel):
     query: str
-    session_id: str = "default"
+    session_id: str = str(uuid.uuid4())
 
-# 1. 核心 Agent 接口 (主推，明天演示就用这个)
+# 1. 核心 Agent 接口
 @app.post("/agent_chat")
-async def agent_endpoint(request: ChatRequest):
+def agent_endpoint(request: ChatRequest):
     try:
         answer = agent_chat(request.query, request.session_id)
         return {"code": 200, "session_id": request.session_id, "reply": answer}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# 2. 流式输出接口 (辅助演示打字机效果)
+# 2. 流式输出接口
 @app.post("/agent_stream")
 async def agent_stream_endpoint(request: ChatRequest):
     def generate():
